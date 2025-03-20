@@ -61,7 +61,8 @@ $rowTotal = mysqli_fetch_all($queryTotal, MYSQLI_ASSOC);
             </div>
 
         </div>
-    </div><!-- End Sales Card -->
+    </div>
+    <!-- End Sales Card -->
 
     <div class="row">
         <div class="col-sm-12">
