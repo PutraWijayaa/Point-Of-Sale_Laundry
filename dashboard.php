@@ -26,30 +26,17 @@ require_once 'koneksi.php'; //Koneksi Database
 
 <main id="main" class="main">
 
-    <div class="pagetitle">
-        <h1>Dashboard</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                <li class="breadcrumb-item">Pages</li>
-                <li class="breadcrumb-item">Dashboard</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
-
-    <section class="section">
-        <?php
-        if (isset($_GET['page'])) {
-            if (file_exists('content/' . $_GET['page'] . ".php")) {
-                include 'content/' . $_GET['page'] . ".php";
-            } else {
-                include "content/home.php";
-            }
+    <?php
+    if (isset($_GET['page'])) {
+        if (file_exists('content/' . $_GET['page'] . ".php")) {
+            include 'content/' . $_GET['page'] . ".php";
         } else {
             include "content/home.php";
         }
-        ?>
-    </section>
+    } else {
+        include "content/home.php";
+    }
+    ?>
 
 </main><!-- End #main -->
 
