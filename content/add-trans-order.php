@@ -13,7 +13,7 @@ if (isset($_POST['save'])) {
 }
 
 $id = isset($_GET['edit']) ? $_GET['edit'] : '';
-$queryEdit = mysqli_query($koneksi, "SELECT * FROM users WHERE id = '$id'");
+$queryEdit = mysqli_query($koneksi, "SELECT * FROM user WHERE id = '$id'");
 $rowEdit = mysqli_fetch_assoc($queryEdit);
 
 if (isset($_POST['edit'])) {

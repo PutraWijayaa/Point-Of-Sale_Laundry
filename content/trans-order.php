@@ -1,15 +1,20 @@
 <?php
-$query = mysqli_query($koneksi, "SELECT trans_order.*, customers.customer_name
-FROM trans_order 
-LEFT JOIN customers ON customers.id = trans_order.id_customer 
-WHERE deleted_at = 0
-ORDER BY trans_order.id DESC");
+
+$query = mysqli_query(
+    $koneksi,
+    "SELECT order.*, customer.customer_name
+    FROM order 
+    LEFT JOIN customer ON customer.id = order.id_customer 
+    WHERE deleted_at = 0
+    ORDER BY order.id DESC"
+);
+
 $rows  = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $delete = mysqli_query($koneksi, "UPDATE trans_order SET deleted_at = 1 WHERE id = '$id'");
-    header("location:?page=trans-order&notif=success");
+    $delete = mysqli_query($koneksi, "UPDATE order SET deleted_at = 1 WHERE id = '$id'");
+    header("location: ?page=trans-order&notif=success");
 }
 ?>
 <div class="row">
