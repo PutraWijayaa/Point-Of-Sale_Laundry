@@ -1,21 +1,19 @@
 <?php
+include('koneksi.php');
 
 $query = mysqli_query(
     $koneksi,
-    "SELECT order.*, customer.customer_name
-    FROM order 
-    LEFT JOIN customer ON customer.id = order.id_customer 
-    WHERE deleted_at = 0
-    ORDER BY order.id DESC"
+    "SELECT `order`.*, customer.customer_name FROM `order` LEFT JOIN customer ON customer.id = `order`.id_customer WHERE `order`.deleted_at = 0 ORDER BY `order`.id DESC;"
 );
 
-$rows  = mysqli_fetch_all($query, MYSQLI_ASSOC);
+$rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $delete = mysqli_query($koneksi, "UPDATE order SET deleted_at = 1 WHERE id = '$id'");
     header("location: ?page=trans-order&notif=success");
 }
+
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -25,7 +23,7 @@ if (isset($_GET['delete'])) {
             </div>
             <div class="card-body">
                 <div align="right" class="mb-3 mt-3">
-                    <a href="?page=add-trans-order" class="btn btn-primary">Create New Order</a>
+                    <a href="?page=add-trans-order" class="btn btn-dark"><i class="bi bi-plus-circle"></i> New Order</a>
                 </div>
                 <table class="table table-bordered">
                     <thead>
@@ -40,17 +38,18 @@ if (isset($_GET['delete'])) {
                     <tbody>
                         <?php $no = 1;
                         foreach ($rows as $row): ?>
-                            <tr>
-                                <td><?php echo $no++ ?></td>
-                                <td><?php echo $row['trans_code'] ?></td>
-                                <td><?php echo $row['customer_name'] ?></td>
-                                <td><?php echo $row['status'] ?></td>
-                                <td>
-                                    <a href="?page=add-service&detail=<?php echo $row['id'] ?>" class="btn btn-primary btn-sm">Edit</a>
-                                    <a href="?page=service&delete=<?php echo $row['id'] ?>"
-                                        onclick="return confirm('Are you sure??')" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td><?php echo $no++ ?></td>
+                            <td><?php echo $row['trans_code'] ?></td>
+                            <td><?php echo $row['customer_name'] ?></td>
+                            <td><?php echo $row['status'] ?></td>
+                            <td>
+                                <a href="?page=add-service&detail=<?php echo $row['id'] ?>"
+                                    class="btn btn-primary btn-sm">Edit</a>
+                                <a href="?page=service&delete=<?php echo $row['id'] ?>"
+                                    onclick="return confirm('Are you sure??')" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
                         <?php endforeach ?>
                     </tbody>
                 </table>

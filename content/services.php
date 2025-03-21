@@ -33,18 +33,20 @@ $rowCustomer = mysqli_fetch_all($queryCustomer, MYSQLI_ASSOC);
                         <?php
                         $no = 1;
                         foreach ($rowCustomer as $row) { ?>
-                            <tr>
-                                <td><?= $no++ ?></td>
-                                <td><?= $row['service_name'] ?></td>
-                                <td><?= $row['service_price'] ?></td>
-                                <td><?= $row['service_desc'] ?></td>
-                                <td hidden><?= $row['created_at'] ?></td>
-                                <td hidden><?= $row['updated_at'] ?></td>
-                                <td class="btn-group">
-                                    <a href="?page=add-service&edit=<?php echo $row['id'] ?>" class="btn btn-dark btn-sm"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="?page=service&delete=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are You Sure?')"><i class="bi bi-trash3-fill"></i></a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td><?= $no++ ?></td>
+                            <td><?= $row['service_name'] ?></td>
+                            <td><?= $row['service_price'] ?></td>
+                            <td><?= $row['service_desc'] ?></td>
+                            <td hidden><?= $row['created_at'] ?></td>
+                            <td hidden><?= $row['updated_at'] ?></td>
+                            <td class="btn-group">
+                                <a href="?page=add-service&edit=<?php echo $row['id'] ?>" class="btn btn-dark btn-sm"><i
+                                        class="bi bi-pencil-square"></i></a>
+                                <a href="?page=service&delete=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are You Sure?')"><i class="bi bi-trash3-fill"></i></a>
+                            </td>
+                        </tr>
                         <?php } ?>
                     </tbody>
                 </table>

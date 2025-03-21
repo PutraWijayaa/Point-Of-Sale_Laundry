@@ -2,7 +2,7 @@
 session_start();
 ob_start();
 
-require_once 'koneksi.php'; //Koneksi Database
+require_once 'koneksi.php';
 
 // $user_id = $_SESSION['user']['id'];
 
