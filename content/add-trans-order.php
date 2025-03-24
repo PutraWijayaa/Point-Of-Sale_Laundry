@@ -1,32 +1,41 @@
 <?php
+
+if(empty($_SESSION['click_count']))
+{
+    $_SESSION['click_count'] = 0;
+}
+
+
 if (isset($_POST['save'])) {
-    $id_level = $_POST['id_level'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = sha1($_POST['password']);
+    $id_customer = $_POST['id_customer'];
+    $trans_code = $_POST['trans_code'];
+    $order_date = $_POST['order_date'];
+    $order_end_date = sha1($_POST['order_end_date']);
 
-    $insert = mysqli_query($koneksi, "INSERT INTO user (id_level,name,email,password) VALUES ('$id_level','$name','$email','$password')");
+    // var_dump("INSERT INTO order (id_customer ,trans_code,order_date,order_end_date) VALUES ('$id_customer','$trans_code','$order_date','$order_end_date')");
+    // die();
+
+    $insert = mysqli_query($koneksi, "INSERT INTO `order` (id_customer ,trans_code,order_date,order_end_date) VALUES ('$id_customer','$trans_code','$order_date','$order_end_date')");
     if ($insert) {
-        header('location: ?page=user&add=success');
+        
+    $id_order = mysqli_insert_id($koneksi);
+    $qty = isset($_POST['qty']) ? $_POST['qty'] : 0;
+    $notes = isset($_POST['notes']) ? $_POST['notes'] : '';
+    $id_service = isset($_POST['id_service']) ? $_POST['id_service'] : 0;
+    
+    for ($i = 0; $i < $_POST['countDisplay']; $i++){
+        $service_name = $_POST['service_name'];
+        // $cariId_service = mysqli_query($koneksi, "SELECT id FROM services WHERE service_name = '$service_name'");
+        // $rowid_service = mysqli_fetch_assoc($cariId_service);
+        // $id_service = $rowid_service['id'];
+    
+        $instOrderDet = mysqli_query($koneksi, "INSERT INTO order_detail(id_order, id_service, `qty`, `notes`) VALUES ('$id_order', '$id_service', '$qty[$i]', '$notes[$i]')");
     }
+    header('location: ?page=trans-order&add=success');
 }
 
-$id = isset($_GET['edit']) ? $_GET['edit'] : '';
-$queryEdit = mysqli_query($koneksi, "SELECT * FROM user WHERE id = '$id' ");
-$rowEdit = mysqli_fetch_assoc($queryEdit);
-
-if (isset($_POST['edit'])) {
-    $id = $_GET['edit'];
-    $id_level = $_POST['id_level'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-
-    $update = mysqli_query($koneksi, "UPDATE user SET id_name='$id_name', name='$name', email='$email', password='$password'  WHERE id='$id' ");
-    if ($update) {
-        header("Location:?page=user&update=success");
-        # code...
-    }
 }
+
 
 $queryCustomers = mysqli_query($koneksi, "SELECT * FROM customer ORDER BY id DESC");
 $rowCustomers = mysqli_fetch_all($queryCustomers, MYSQLI_ASSOC);
@@ -131,10 +140,12 @@ $kode_transaksi = "TR/" . date("mdy") . sprintf("/%03d", $id_trans);
                         <div class="col-sm-12">
                             <div class="mb-3" align="right">
                                 <button class="btn btn-danger btn-sm add-row" type="button">Add Row</button>
+                                <input type="number" name="countDisplay" id="countDisplay" value="<?=$_SESSION['click_count']?>" readonly>
                             </div>
                             <table class="table table-bordered table-order">
                                 <thead>
                                     <tr>
+                                        <th>No</th>
                                         <th>Service</th>
                                         <th>Price</th>
                                         <th>Qty</th>
@@ -143,6 +154,7 @@ $kode_transaksi = "TR/" . date("mdy") . sprintf("/%03d", $id_trans);
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>

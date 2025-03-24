@@ -42,7 +42,7 @@ if (isset($_GET['delete'])) {
                             <td><?php echo $no++ ?></td>
                             <td><?php echo $row['trans_code'] ?></td>
                             <td><?php echo $row['customer_name'] ?></td>
-                            <td><?php echo $row['status'] ?></td>
+                            <td><?php echo $row['order_status'] ?></td>
                             <td>
                                 <a href="?page=add-service&detail=<?php echo $row['id'] ?>"
                                     class="btn btn-primary btn-sm">Edit</a>

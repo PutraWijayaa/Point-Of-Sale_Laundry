@@ -34,12 +34,18 @@ $('#id_service').change(function() {
 
 $('.add-row').click(function() {
 
+    let countDisplay = document.getElementById("countDisplay");
+    let currentCount = parseInt(countDisplay.value) || 0;
+    currentCount++;
+    countDisplay.value = currentCount;
+
     let service_name = $('#id_service').find("option:selected").text();
     let service_price = $('#service_price').val();
 
     let newRow = "";
 
     newRow += "<tr>"
+    newRow += `<td> ${currentCount} </td>`;
     newRow += `<td> ${service_name} </td>`;
     newRow += `<td> ${service_price.toLocaleString()} </td>`;
     newRow += "<td><input class='form-control' name='qty[]' type='number'</td>";
