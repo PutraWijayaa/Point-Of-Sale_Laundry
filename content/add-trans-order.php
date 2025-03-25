@@ -10,30 +10,63 @@ if (isset($_POST['save'])) {
     $id_customer = $_POST['id_customer'];
     $trans_code = $_POST['trans_code'];
     $order_date = $_POST['order_date'];
-    $order_end_date = sha1($_POST['order_end_date']);
+    $order_end_date = $_POST['order_end_date'];
 
     // var_dump("INSERT INTO order (id_customer ,trans_code,order_date,order_end_date) VALUES ('$id_customer','$trans_code','$order_date','$order_end_date')");
     // die();
 
     $insert = mysqli_query($koneksi, "INSERT INTO `order` (id_customer ,trans_code,order_date,order_end_date) VALUES ('$id_customer','$trans_code','$order_date','$order_end_date')");
-    if ($insert) {
-        
+    
     $id_order = mysqli_insert_id($koneksi);
-    $qty = isset($_POST['qty']) ? $_POST['qty'] : 0;
-    $notes = isset($_POST['notes']) ? $_POST['notes'] : '';
-    $id_service = isset($_POST['id_service']) ? $_POST['id_service'] : 0;
-    
-    for ($i = 0; $i < $_POST['countDisplay']; $i++){
-        $service_name = $_POST['service_name'];
-        // $cariId_service = mysqli_query($koneksi, "SELECT id FROM services WHERE service_name = '$service_name'");
-        // $rowid_service = mysqli_fetch_assoc($cariId_service);
-        // $id_service = $rowid_service['id'];
-    
-        $instOrderDet = mysqli_query($koneksi, "INSERT INTO order_detail(id_order, id_service, `qty`, `notes`) VALUES ('$id_order', '$id_service', '$qty[$i]', '$notes[$i]')");
+    $qty = isset($_POST['qty']) ? $_POST['qty'] : [];
+    $notes = isset($_POST['notes']) ? $_POST['notes'] : [];
+    $service_name = isset($_POST['service_name']) ? $_POST['service_name'] : [];
+    $subtotal = $_POST['subtotal'] ? $_POST['subtotal'] : [];
+
+    $total = 0;
+    for ($i = 0; $i < $_POST['countDispaly']; $i++) {
+        $service = $service_name[$i];
+        $cariId_service = mysqli_query($koneksi, "SELECT id FROM services WHERE service_name LIKE '%$service%'");
+        $rowid_service = mysqli_fetch_assoc($cariId_service);
+        // var_dump($rowid_service);
+        // die;
+
+        $id_service = $rowid_service['id'];
+
+        $qty_value = $qty[$i];
+        $subtotal_value = $subtotal[$i];
+        $notes_value = $notes[$i];
+
+        $instOrderDet = mysqli_query($koneksi, "INSERT INTO order_detail (id_order, id_service, qty, subtotal, notes) VALUES ('$id_order', '$id_service', '$qty_value', '$subtotal_value', '$notes_value')");
+
+        $total += ($subtotal_value * $qty_value);
     }
-    header('location: ?page=trans-order&add=success');
+    $update = mysqli_query($koneksi, "UPDATE order SET total='$total' WHERE id = '$id_order' ");
+    header("location: ?page=trans-order&add=success");
+
 }
 
+$id = isset($_GET['edit']) ? $_GET['edit'] : '';
+$queryEdit = mysqli_query($koneksi, "SELECT * FROM user WHERE id = '$id'");
+$rowEdit = mysqli_fetch_assoc($queryEdit);
+
+if (isset($_POST['edit'])) {
+    $id = $_GET['edit'];
+    $$id_level = $_POST['id_level'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+
+    if ($_POST['password']) {
+        $password = sha1($_POST['password']);
+    } else {
+        $password = $rowEdit['password'];
+    }
+
+    $update = mysqli_query($koneksi, "UPDATE users 
+    SET id_level ='$id_level', name='$name', email='$email', password='$password' WHERE id ='$id'");
+    if ($update) {
+        header("location:?page=user&update=success");
+    }
 }
 
 
@@ -124,10 +157,9 @@ $kode_transaksi = "TR/" . date("mdy") . sprintf("/%03d", $id_trans);
                                 </div>
                                 <div class="col-sm-6">
                                     <select name="id_service" id="id_service" class="form-control change">
-                                        <option value="">Choose Service</option>
+                                        <option value="0">Choose Service</option>
                                         <?php foreach ($rowService as $rowService): ?>
-                                        <option value="<?php echo $rowService['id'] ?>">
-                                            <?php echo $rowService['service_name'] ?></option>
+                                            <option value="<?php echo $rowService['id'] ?>" data-price="<?php echo $rowService['service_price'] ?>"><?php echo $rowService['service_name'] ?></option>
                                         <?php endforeach ?>
                                     </select>
                                 </div>
@@ -139,8 +171,8 @@ $kode_transaksi = "TR/" . date("mdy") . sprintf("/%03d", $id_trans);
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="mb-3" align="right">
-                                <button class="btn btn-danger btn-sm add-row" type="button">Add Row</button>
-                                <input type="number" name="countDisplay" id="countDisplay" value="<?=$_SESSION['click_count']?>" readonly>
+                            <button type="button" class="btn btn-dark btn-sm add-row"><i class="bi bi-plus-circle"></i></button>
+                            <input type="hidden" name="countDispaly" id="countDispaly" value="<?php echo $_SESSION['click_count'] ?>" readonly>
                             </div>
                             <table class="table table-bordered table-order">
                                 <thead>

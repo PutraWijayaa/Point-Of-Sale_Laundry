@@ -43,11 +43,11 @@ if (isset($_GET['delete'])) {
                             <td><?php echo $row['trans_code'] ?></td>
                             <td><?php echo $row['customer_name'] ?></td>
                             <td><?php echo $row['order_status'] ?></td>
-                            <td>
+                            <td class="btn-group">
                                 <a href="?page=add-service&detail=<?php echo $row['id'] ?>"
-                                    class="btn btn-primary btn-sm">Edit</a>
+                                    class="btn btn-dark btn-sm"><i class="bi bi-pencil-square"></i></a>
                                 <a href="?page=service&delete=<?php echo $row['id'] ?>"
-                                    onclick="return confirm('Are you sure??')" class="btn btn-danger btn-sm">Delete</a>
+                                    onclick="return confirm('Are you sure??')" class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></a>
                             </td>
                         </tr>
                         <?php endforeach ?>
