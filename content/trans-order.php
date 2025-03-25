@@ -10,16 +10,17 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $delete = mysqli_query($koneksi, "UPDATE order SET deleted_at = 1 WHERE id = '$id'");
+    $delete = mysqli_query($koneksi, "DELETE FROM services WHERE id = '$id'");
     header("location: ?page=trans-order&notif=success");
 }
 
 ?>
+
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h3>Data Trans Order</h3>
+                <h3>Transaction</h3>
             </div>
             <div class="card-body">
                 <div align="right" class="mb-3 mt-3">
@@ -27,14 +28,15 @@ if (isset($_GET['delete'])) {
                 </div>
                 <table class="table table-bordered">
                     <thead>
-                        <tr>
+                        <tr>s
                             <th>No</th>
-                            <th>Trans Code</th>
+                            <th>Transaction Code</th>
                             <th>Customer Name</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                         <?php $no = 1;
                         foreach ($rows as $row): ?>
@@ -44,10 +46,11 @@ if (isset($_GET['delete'])) {
                             <td><?php echo $row['customer_name'] ?></td>
                             <td><?php echo $row['order_status'] ?></td>
                             <td class="btn-group">
-                                <a href="?page=add-service&detail=<?php echo $row['id'] ?>"
-                                    class="btn btn-dark btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                <!-- <a href="?page=add-service&detail=<?php echo $row['id'] ?>"
+                                    class="btn btn-dark btn-sm"><i class="bi bi-pencil-square"></i></a> -->
                                 <a href="?page=service&delete=<?php echo $row['id'] ?>"
                                     onclick="return confirm('Are you sure??')" class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></a>
+                                <a href="?page=detail-order&detail=<?php echo $row['id'] ?>" class="btn btn-warning btn-sm"><i class="bi bi-eye"></i></a>
                             </td>
                         </tr>
                         <?php endforeach ?>

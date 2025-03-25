@@ -3,6 +3,13 @@
 $queryCustomer = mysqli_query($koneksi, "SELECT * FROM services ORDER BY id DESC");
 $rowCustomer = mysqli_fetch_all($queryCustomer, MYSQLI_ASSOC);
 
+
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $delete = mysqli_query($koneksi, "DELETE FROM services WHERE id = '$id'");
+    header("location:?page=services&notif=success");
+}
+
 ?>
 
 <div class="row">
@@ -43,7 +50,7 @@ $rowCustomer = mysqli_fetch_all($queryCustomer, MYSQLI_ASSOC);
                             <td class="btn-group">
                                 <a href="?page=add-service&edit=<?php echo $row['id'] ?>" class="btn btn-dark btn-sm"><i
                                         class="bi bi-pencil-square"></i></a>
-                                <a href="?page=service&delete=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm"
+                                <a href="?page=services&delete=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm"
                                     onclick="return confirm('Are You Sure?')"><i class="bi bi-trash3-fill"></i></a>
                             </td>
                         </tr>

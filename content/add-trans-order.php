@@ -41,7 +41,7 @@ if (isset($_POST['save'])) {
 
         $total += ($subtotal_value * $qty_value);
     }
-    $update = mysqli_query($koneksi, "UPDATE order SET total='$total' WHERE id = '$id_order' ");
+    $update = mysqli_query($koneksi, "UPDATE `order` SET total='$total' WHERE id = '$id_order' ");
     header("location: ?page=trans-order&add=success");
 
 }
