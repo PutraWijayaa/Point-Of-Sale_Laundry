@@ -105,6 +105,10 @@ $rowsD = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
 
                     </table>
                     <!-- End Tables without borders -->
+                    <button class="btn btn-dark btn-sm" onclick="window.open('../cetak.php?detail=<?= $rows['trId'] ?>', '_blank')">Cetak Struk</button>
+
+                    <!-- <button class="btn btn-dark btn-sm" onclick="window.open('../cetak.php', '_blank')">Cetak Struk</button> -->
+
                 </div>
 
             </div>

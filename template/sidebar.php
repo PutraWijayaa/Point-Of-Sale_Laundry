@@ -19,15 +19,15 @@
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
                 <li>
-                    <a href="?page=penjualan">
+                    <a href="?page=transaction_report">
                         <i class="bi bi-circle"></i><span>Transaction Report</span>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="?page=pendapatan">
                         <i class="bi bi-circle"></i><span>Report</span>
                     </a>
-                </li>
+                </li> -->
 
             </ul>
         </li><!-- End Components Nav -->
@@ -59,15 +59,13 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="?page=trans-order">
                 <!-- <i class="bi bi-car-front"></i> -->
-                <i class="bi bi-boxes"></i>
-                <span>Order</span>
+                <i class="bi bi-cash-stack"></i> <span>Transaction</span>
             </a>
         </li><!-- End Register Page Nav -->
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="?page=services">
-                <i class="bi bi-google-play"></i>
-                <span>Service</span>
+                <i class="bi bi-gear"></i> <span>Service</span>
             </a>
         </li><!-- End Error 404 Page Nav -->
 
