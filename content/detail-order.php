@@ -1,8 +1,14 @@
-<?php 
-
-?>
-
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['ID_USER'])) {
+    header("Location: index.php");
+    exit();
+}
+
 include('koneksi.php');
 
 if (isset($_GET['detail'])) {
@@ -30,7 +36,7 @@ $rowsD = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
                 <h5 class="card-title">Transaction</h5>
             </div>
             <div class="card-body">
-                
+
                 <!-- General Form Elements -->
                 <form>
                     <div class="row mb-3 mt-3">
@@ -42,7 +48,8 @@ $rowsD = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
                     <div class="row mb-3 mt-3">
                         <label class="col-sm-2 col-form-label">Customer Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" value="<?php echo $rows['customer_name'] ?>" readonly>
+                            <input type="text" class="form-control" value="<?php echo $rows['customer_name'] ?>"
+                                readonly>
                         </div>
                     </div>
                     <div class="row mb-3 mt-3">
@@ -60,7 +67,8 @@ $rowsD = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
                     <div class="row mb-3 mt-3">
                         <label class="col-sm-2 col-form-label">PickUp Date</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" value="<?php echo $rows['order_end_date'] ?>" readonly>
+                            <input type="text" class="form-control" value="<?php echo $rows['order_end_date'] ?>"
+                                readonly>
                         </div>
                     </div>
 
@@ -81,7 +89,7 @@ $rowsD = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
                         </thead>
 
                         <tbody>
-                        <?php $no = 1;
+                            <?php $no = 1;
                         $total = 0;
                         foreach ($rowsD as $row): ?>
                             <tr>
@@ -90,10 +98,10 @@ $rowsD = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
                                 <td><?= $row['qty'] ?> Kg</td>
                                 <td>Rp. <?= $row['subtotal'] ?></td>
                             </tr>
-                           
+
                             <?php endforeach ?>
                         </tbody>
-                        
+
                         <tfoot class="border-top">
                             <tr>
                                 <th scope="col"></th>
@@ -104,10 +112,10 @@ $rowsD = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
                         </tfoot>
 
                     </table>
-                    <!-- End Tables without borders -->
-                    <button class="btn btn-dark btn-sm" onclick="window.open('../cetak.php?detail=<?= $rows['trId'] ?>', '_blank')">Cetak Struk</button>
-
-                    <!-- <button class="btn btn-dark btn-sm" onclick="window.open('../cetak.php', '_blank')">Cetak Struk</button> -->
+                   
+                    <a href="?page=cetak&detail=<?= $rows['trId']; ?>" class="btn btn-dark">
+                        <i class="bi bi-plus-circle"></i> Cetak
+                    </a>
 
                 </div>
 

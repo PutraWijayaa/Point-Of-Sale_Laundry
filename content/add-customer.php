@@ -1,4 +1,13 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['ID_USER'])) {
+    header("Location: index.php");
+    exit();
+}
 
 date_default_timezone_set('Asia/Jakarta');
 $date = new DateTime('now', new DateTimeZone('Asia/Jakarta'));

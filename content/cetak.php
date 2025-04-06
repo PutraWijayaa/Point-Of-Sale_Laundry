@@ -1,10 +1,9 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php'; // Pastikan Composer sudah terinstall
-include('../koneksi.php');
-
-use Mike42\Escpos\Printer;
-use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
-use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+if (!isset($_SESSION['ID_USER'])) {
+    header("Location: index.php");
+    exit();
+}
+include('koneksi.php');
 
 if (!isset($_GET['detail'])) {
     die("ID transaksi tidak ditemukan.");
@@ -19,7 +18,6 @@ $query = mysqli_query($koneksi, "SELECT `order`.*, customer.customer_name, custo
     WHERE `order`.id = '$id'");
 
 $transaksi = mysqli_fetch_assoc($query);
-
 if (!$transaksi) {
     die("Transaksi tidak ditemukan.");
 }
@@ -30,49 +28,99 @@ $qeue = mysqli_query($koneksi, "SELECT order_detail.*, services.service_name
     LEFT JOIN services ON order_detail.id_service = services.id 
     WHERE order_detail.id_order = '$id'");
 $details = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
-
-try {
-    // Koneksi ke printer (Ganti "POS-58" dengan nama printer yang sesuai)
-    $connector = new WindowsPrintConnector("POS-58");
-
-    $printer = new Printer($connector);
-
-    // Cetak header
-    $printer->setJustification(Printer::JUSTIFY_CENTER);
-    $printer->text("Laundry Bersih\n");
-    $printer->text("------------------------\n");
-
-    // Cetak info pelanggan
-    $printer->setJustification(Printer::JUSTIFY_LEFT);
-    $printer->text("Pelanggan : " . $transaksi['customer_name'] . "\n");
-    $printer->text("Alamat    : " . $transaksi['address'] . "\n");
-    $printer->text("Tanggal   : " . $transaksi['order_date'] . "\n");
-    $printer->text("------------------------\n");
-
-    // Cetak detail pesanan
-    $printer->text("Item          Qty     Harga\n");
-    $printer->text("------------------------\n");
-
-    foreach ($details as $item) {
-        $printer->text(str_pad($item['service_name'], 12) . 
-                       str_pad($item['qty'] . " Kg", 6) . 
-                       "Rp " . number_format($item['subtotal'], 0, ',', '.') . "\n");
-    }
-
-    $printer->text("------------------------\n");
-
-    // Cetak total
-    $printer->setJustification(Printer::JUSTIFY_RIGHT);
-    $printer->text("Total: Rp " . number_format($transaksi['total'], 0, ',', '.') . "\n\n");
-
-    $printer->setJustification(Printer::JUSTIFY_CENTER);
-    $printer->text("Terima Kasih!\n");
-    $printer->cut();
-    
-    $printer->close();
-
-    echo "Struk berhasil dicetak!";
-} catch (Exception $e) {
-    echo "Gagal mencetak struk: " . $e->getMessage();
-}
 ?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Cetak Struk</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 58mm;
+            margin: auto;
+        }
+        .struk {
+            text-align: center;
+        }
+        .struk h2 {
+            margin: 0;
+        }
+        .detail, .total, .pembayaran {
+            margin-top: 10px;
+            text-align: left;
+        }
+        .total, .pembayaran {
+            border-top: 1px dashed #000;
+            padding-top: 5px;
+        }
+        .thanks {
+            margin-top: 20px;
+            text-align: center;
+        }
+        @media print {
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body onload="window.print()">
+    <div class="struk">
+        <h2>Laundry Bersih</h2>
+        <hr>
+        <div class="detail">
+            <p><strong>Pelanggan:</strong> <?= htmlspecialchars($transaksi['customer_name']) ?></p>
+            <p><strong>Alamat:</strong> <?= htmlspecialchars($transaksi['address']) ?></p>
+            <p><strong>Tanggal:</strong> <?= htmlspecialchars($transaksi['order_date']) ?></p>
+        </div>
+        <hr>
+        <div>
+            <table style="width: 100%; font-size: 12px;">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;">Item</th>
+                        <th>Qty</th>
+                        <th style="text-align:right;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($details as $item): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($item['service_name']) ?></td>
+                        <td><?= $item['qty'] ?> Kg</td>
+                        <td style="text-align:right;">Rp <?= number_format($item['subtotal'], 0, ',', '.') ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="total">
+            <p style="text-align:right;"><strong>Total: Rp <?= number_format($transaksi['total'], 0, ',', '.') ?></strong></p>
+        </div>
+
+        <?php
+        // Simulasi uang dibayar (misalnya user bayar Rp 100.000)
+        $dibayar = 100000;
+        $kembalian = $dibayar - $transaksi['total'];
+        ?>
+
+        <div class="pembayaran">
+            <p><strong>Uang Dibayar:</strong> Rp <?= number_format($dibayar, 0, ',', '.') ?></p>
+            <p><strong>Kembalian:</strong> Rp <?= number_format($kembalian, 0, ',', '.') ?></p>
+        </div>
+
+        <div class="thanks">
+            <p>~ Terima kasih ~</p>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            window.print();
+        };
+    </script>
+</body>
+</html>

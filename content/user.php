@@ -1,4 +1,15 @@
 <?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['ID_USER'])) {
+    header("Location: index.php");
+    exit();
+}
+
 $query = mysqli_query($koneksi, "SELECT users.*, levels.level_name FROM users 
 LEFT JOIN levels ON levels.id = users.id_level ORDER BY users.id DESC");
 $rows  = mysqli_fetch_all($query, MYSQLI_ASSOC);

@@ -1,4 +1,15 @@
 <?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['ID_USER'])) {
+    header("Location: index.php");
+    exit();
+}
+
 if (isset($_POST['save'])) {
     $id_level = $_POST['id_level'];
     $name = $_POST['name'];

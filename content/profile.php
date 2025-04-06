@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_name"])) {
         $stmt = $koneksi->prepare("UPDATE user SET name = ? WHERE id = ?");
         $stmt->bind_param("si", $new_name, $id_user);
         if ($stmt->execute()) {
-            echo "<script>alert('Nama berhasil diperbarui!'); window.location.href='profile.php';</script>";
+            echo "<script>alert('Nama berhasil diperbarui!'); window.location.href='?page=profile';</script>";
         } else {
             echo "<script>alert('Gagal memperbarui nama.');</script>";
         }
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_password"])) {
         $stmt = $koneksi->prepare("UPDATE user SET password = ? WHERE id = ?");
         $stmt->bind_param("si", $hashed_password, $id_user);
         if ($stmt->execute()) {
-            echo "<script>alert('Password berhasil diperbarui!'); window.location.href='profile.php';</script>";
+            echo "<script>alert('Password berhasil diperbarui!'); window.location.href='?page=profile';</script>";
         } else {
             echo "<script>alert('Gagal memperbarui password.');</script>";
         }

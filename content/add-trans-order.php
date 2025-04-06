@@ -1,5 +1,15 @@
 <?php
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['ID_USER'])) {
+    header("Location: index.php");
+    exit();
+}
+
 if(empty($_SESSION['click_count']))
 {
     $_SESSION['click_count'] = 0;
