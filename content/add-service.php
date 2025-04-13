@@ -18,7 +18,8 @@ if (isset($_POST['save'])) {
     $insert = mysqli_query($koneksi, "INSERT INTO services (service_name, service_price, service_desc)
     VALUES('$service_name','$service_price','$service_desc')");
     if ($insert) {
-        header("location:?page=services&add=success");
+        // header("location:?page=services&add=success");
+        header("Location: ?page=services&alert=success&message=successfully.");
     }
 }
 
@@ -32,7 +33,8 @@ if (isset($_POST['edit'])) {
     SET service_name ='$service_name', service_price='$service_price', 
     service_desc='$service_desc' WHERE id ='$id'");
     if ($update) {
-        header("location:?page=services&update=success");
+        header("Location: ?page=services&alert=success&message=successfully.");
+        // header("location:?page=services&update=success");
     }
 }
 

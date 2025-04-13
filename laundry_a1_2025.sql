@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Apr 2025 pada 16.17
+-- Waktu pembuatan: 13 Apr 2025 pada 13.52
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 7.4.28
 
@@ -37,6 +37,13 @@ CREATE TABLE `customer` (
   `deleted_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `customer`
+--
+
+INSERT INTO `customer` (`id`, `customer_name`, `phone`, `address`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(26, 'Umum', '-', '-', '2025-04-13 11:13:13', NULL, '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -56,7 +63,7 @@ CREATE TABLE `level` (
 --
 
 INSERT INTO `level` (`id`, `level_name`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(3, 'Administrator', '2025-03-20 00:57:00', NULL, '2025-03-18 03:18:43'),
+(3, 'Admin', '2025-04-13 10:04:34', NULL, '2025-03-18 03:18:43'),
 (4, 'Kasir', '2025-03-20 00:56:52', NULL, '0000-00-00 00:00:00'),
 (5, 'Owner', '2025-04-06 13:28:34', NULL, '0000-00-00 00:00:00');
 
@@ -81,6 +88,14 @@ CREATE TABLE `order` (
   `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `order`
+--
+
+INSERT INTO `order` (`id`, `id_customer`, `trans_code`, `order_date`, `order_end_date`, `order_status`, `created_at`, `updated_at`, `deleted_at`, `order_pay`, `order_change`, `total`) VALUES
+(63, 26, 'TR/041325/001', '2025-04-13', '2025-04-14', 1, '2025-04-13 11:00:25', NULL, '0000-00-00 00:00:00', 75000, 0, 75000),
+(64, 26, 'TR/041325/064', '2025-04-13', '2025-04-30', 1, '2025-04-13 11:19:48', NULL, '0000-00-00 00:00:00', 0, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -97,6 +112,14 @@ CREATE TABLE `order_detail` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `order_detail`
+--
+
+INSERT INTO `order_detail` (`id`, `id_order`, `id_service`, `qty`, `subtotal`, `notes`, `created_at`, `updated_at`) VALUES
+(70, 63, 11, 5, 15000, '5kg', '2025-04-13 11:00:21', NULL),
+(71, 64, 12, 1, 0, '', '2025-04-13 11:19:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -164,7 +187,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `id_level`, `name`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Admin Laundry', 'admin@admin.com', 'b2e98ad6f6eb8508dd6a14cfa704bad7f05f6fb1', '2025-04-06 13:23:11', NULL);
+(1, 1, 'Kasir Laundry', 'admin@admin.com', 'b2e98ad6f6eb8508dd6a14cfa704bad7f05f6fb1', '2025-04-13 11:21:42', NULL);
 
 --
 -- Indexes for dumped tables
@@ -224,25 +247,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT untuk tabel `level`
 --
 ALTER TABLE `level`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT untuk tabel `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT untuk tabel `pickup`
@@ -254,7 +277,7 @@ ALTER TABLE `pickup`
 -- AUTO_INCREMENT untuk tabel `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`

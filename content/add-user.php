@@ -19,7 +19,8 @@ if (isset($_POST['save'])) {
     $insert = mysqli_query($koneksi, "INSERT INTO users (id_level, name, email, password)
     VALUES('$id_level','$name','$email','$password')");
     if ($insert) {
-        header("location:?page=user&add=success");
+        header("Location: ?page=user&alert=success&message=successfully.");
+        // header("location:?page=user&add=success");
     }
 }
 
@@ -42,7 +43,8 @@ if (isset($_POST['edit'])) {
     $update = mysqli_query($koneksi, "UPDATE users 
     SET id_level ='$id_level', name='$name', email='$email', password='$password' WHERE id ='$id'");
     if ($update) {
-        header("location:?page=user&update=success");
+        header("Location: ?page=user&alert=success&message=successfully.");
+        // header("location:?page=user&update=success");
     }
 }
 

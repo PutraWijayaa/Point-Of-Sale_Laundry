@@ -3,7 +3,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Periksa apakah pengguna sudah login
 if (!isset($_SESSION['ID_USER'])) {
     header("Location: index.php");
     exit();
@@ -72,7 +71,8 @@ $rowsD = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
                         </div>
                     </div>
 
-                </form><!-- End General Form Elements -->
+                </form>
+                <!-- End General Form Elements -->
 
                 <hr>
                 <div class="card-body">
@@ -112,13 +112,13 @@ $rowsD = mysqli_fetch_all($qeue, MYSQLI_ASSOC);
                         </tfoot>
 
                     </table>
-                   
-                    <a href="?page=cetak&detail=<?= $rows['trId']; ?>" class="btn btn-dark">
-                        <i class="bi bi-plus-circle"></i> Cetak
+
+                    <a href="/Point-Of-Sale_Laundry/content/cetak.php?detail=<?= $rows['trId']; ?>" class="btn btn-dark"
+                        target="_blank">
+                        <i class="bi bi-printer"></i> Cetak
                     </a>
 
                 </div>
-
             </div>
         </div>
     </div>

@@ -21,13 +21,14 @@ if (isset($_POST['save'])) {
     $insert = mysqli_query($koneksi, "INSERT INTO customer (customer_name,phone,address) VALUES ('$customer_name','$phone','$address')");
 
     if ($insert) {
-        header("location: ?page=customer&add=success");
+        // header("location: ?page=customer&add=success");
+        header("Location: ?page=customer&alert=success&message=Customer added successfully.");
+
     } else {
-        header("location: ?page=home");
+        header("Location: ?page=customer&alert=error&message=Failed to add customer.");
     }
 }
 // end Fungsi tambah data 
-
 
 // fungsi edit data 
 $id = isset($_GET['edit']) ? $_GET['edit'] : '';
@@ -43,7 +44,9 @@ if (isset($_POST['edit'])) {
     $queryEdt = mysqli_query($koneksi, "UPDATE customer SET customer_name = '$customer_name', phone = '$phone', address = '$address' WHERE id = '$id'");
 
     if ($queryEdt) {
-        header("location: ?page=customer&update=success");
+        // header("location: ?page=customer&update=success");
+        header("Location: ?page=customer&alert=success&message=Customer update successfully.");
+
     }
 }
 // End fungsi edit 
@@ -60,36 +63,36 @@ if (isset($_POST['edit'])) {
             <div class="card-body">
 
                 <form class="row g-3 mt-3" method="post" enctype="multipart/form-data">
+
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input value="<?php echo isset($_GET['edit']) ? $rowEdit['customer_name'] : '' ?>" type="text" class="form-control" id="floatingName" placeholder="Full Name" name="customer_name">
+                            <input value="<?php echo isset($_GET['edit']) ? $rowEdit['customer_name'] : '' ?>"
+                                type="text" class="form-control" id="floatingName" placeholder="Full Name"
+                                name="customer_name">
                             <label for="floatingName">Customer Name</label>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input value="<?php echo isset($_GET['edit']) ? $rowEdit['phone'] : '' ?>" type="text" class="form-control" id="floatingEmail" placeholder="Your Phone Number" name="phone">
+                            <input value="<?php echo isset($_GET['edit']) ? $rowEdit['phone'] : '' ?>" type="text"
+                                class="form-control" id="floatingEmail" placeholder="Your Phone Number" name="phone">
                             <label for="floatingEmail">Phone Number</label>
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Address" id="floatingTextarea" style="height: 100px;" name="address"><?php echo isset($_GET['edit']) ? $rowEdit['address'] : '' ?></textarea>
+                            <textarea class="form-control" placeholder="Address" id="floatingTextarea"
+                                style="height: 100px;"
+                                name="address"><?php echo isset($_GET['edit']) ? $rowEdit['address'] : '' ?></textarea>
                             <label for="floatingTextarea">Address</label>
                         </div>
                     </div>
 
-                    <!-- <div class="col-md-12">
-                        <div class="form-floating">
-                            <input type="date" class="form-control" name="created_at" value="<?php echo $date->format('Y-m-d H:i:s') ?>">
-                            <label for="floatingEmail">Created At</label>
-                        </div>
-                    </div> -->
-
                     <div class="text-center">
-                        <button type="submit" name="<?php echo isset($_GET['edit']) ? 'edit' : 'save' ?>" class="btn btn-dark">Submit</button>
+                        <button type="submit" name="<?php echo isset($_GET['edit']) ? 'edit' : 'save' ?>"
+                            class="btn btn-dark">Submit</button>
                         <button type="reset" class="btn btn-danger">Reset</button>
                     </div>
                 </form>

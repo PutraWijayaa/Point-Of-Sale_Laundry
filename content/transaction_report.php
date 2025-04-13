@@ -10,7 +10,7 @@ if (!isset($_SESSION['ID_USER'])) {
     exit();
 }
 
-include('koneksi.php');
+// include('koneksi.php');
 ?>
 
 <!-- <main id="main" class="main"> -->

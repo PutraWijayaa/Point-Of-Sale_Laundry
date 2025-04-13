@@ -4,19 +4,18 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Periksa apakah pengguna sudah login
 if (!isset($_SESSION['ID_USER'])) {
     header("Location: index.php");
     exit();
 }
 
-require_once '../vendor/autoload.php'; // Adjust the path if necessary
+require_once '../vendor/autoload.php';
 include('../koneksi.php');
 
-// Create an instance of the mPDF class
 $mpdf = new \Mpdf\Mpdf();
 
-// Start output buffering
+$dateTime = new DateTime();
+
 ob_start();
 ?>
 
@@ -36,7 +35,7 @@ ob_start();
             margin-bottom: 20px;
         }
         .header img {
-            width: 100px; /* Adjust the logo size */
+            width: 100px;
         }
         .header h1 {
             margin: 0;
@@ -71,14 +70,16 @@ ob_start();
 </head>
 <body>
     <div class="header">
-        <img src="../path/to/your/logo.png" alt="Company Logo">
+        <img src="../assets/img/images.png" alt="Company Logo" width="150px">
         <h1>Laundry Jakarta</h1>
         <p>Jakarta Pusat</p>
         <p>Phone: (123) 456-7890 | Email: info@company.com</p>
     </div>
 
+    <hr>
     <div class="content">
-        <h2 style="text-align: center;">Transaction Report</h2>
+        <h4 style="text-align: left;">Transaction Report</h4>
+        <h6>Tanggal Cetak : <?= $dateTime->format('Y-m-d'); ?></h6>
         <table>
             <thead>
                 <tr>
@@ -115,14 +116,11 @@ ob_start();
 </html>
 
 <?php
-// Get the contents of the output buffer
 $html = ob_get_contents();
 ob_end_clean();
 
-// Write the HTML to the PDF
 $mpdf->WriteHTML($html);
 
-// Output the PDF to the browser
-$mpdf->Output('Transaction_Report.pdf', 'I'); // 'I' for inline display, 'D' for download
+$mpdf->Output('Transaction_Report.pdf', 'I');
 exit;
 ?>

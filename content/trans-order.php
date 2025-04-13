@@ -10,7 +10,6 @@ if (!isset($_SESSION['ID_USER'])) {
     exit();
 }
 
-
 include('koneksi.php');
 
 // Ambil order dengan status 0 (Belum Dibayar) dan 1 (Sudah Dibayar)
@@ -64,9 +63,9 @@ if (isset($_GET['delete'])) {
         <div class="tab-content pt-2" id="borderedTabContent">
             <div class="tab-pane fade show active" id="bordered-pending" role="tabpanel" aria-labelledby="pending-tab">
                 <div class="card">
-                    <div class="card-header">
-                        <h3>Transaksi - Belum Dibayar</h3>
-                    </div>
+                    <!-- <div class="card-header">
+                        <h3 class="text-dark">Belum Dibayar</h3>
+                    </div> -->
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
@@ -103,9 +102,9 @@ if (isset($_GET['delete'])) {
 
             <div class="tab-pane fade" id="bordered-paid" role="tabpanel" aria-labelledby="paid-tab">
                 <div class="card">
-                    <div class="card-header">
+                    <!-- <div class="card-header">
                         <h3>Transaksi - Sudah Dibayar</h3>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>

@@ -13,13 +13,6 @@ if (!isset($_SESSION['ID_USER'])) {
 $queryCustomer = mysqli_query($koneksi, "SELECT * FROM services ORDER BY id DESC");
 $rowCustomer = mysqli_fetch_all($queryCustomer, MYSQLI_ASSOC);
 
-
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $delete = mysqli_query($koneksi, "DELETE FROM services WHERE id = '$id'");
-    header("location:?page=services&notif=success");
-}
-
 ?>
 
 <div class="row">
@@ -60,8 +53,11 @@ if (isset($_GET['delete'])) {
                             <td class="btn-group">
                                 <a href="?page=add-service&edit=<?php echo $row['id'] ?>" class="btn btn-dark btn-sm"><i
                                         class="bi bi-pencil-square"></i></a>
-                                <a href="?page=services&delete=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Are You Sure?')"><i class="bi bi-trash3-fill"></i></a>
+
+                                <button type="button" class="btn btn-danger btn-delete btn-sm" data-id="<?= $row['id'] ?>">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            
                             </td>
                         </tr>
                         <?php } ?>
@@ -71,3 +67,51 @@ if (isset($_GET['delete'])) {
         </div>
     </div>
 </div>
+
+<!-- SweetAlert Delete Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data akan dihapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '?page=services&delete=' + id;
+                }
+            });
+        });
+    });
+});
+</script>
+
+<?php
+// Handle delete setelah konfirmasi
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $queryDel = mysqli_query($koneksi, "DELETE FROM services WHERE id = $id");
+    echo "<script>
+        Swal.fire({
+            title: 'Berhasil!',
+            text: 'Data berhasil dihapus.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+        }).then(() => {
+            window.location.href = '?page=services';
+        });
+    </script>";
+    exit();
+}
+?>

@@ -52,7 +52,8 @@ if (isset($_POST['save'])) {
         $total += ($subtotal_value * $qty_value);
     }
     $update = mysqli_query($koneksi, "UPDATE `order` SET total='$total' WHERE id = '$id_order' ");
-    header("location: ?page=trans-order&add=success");
+    // header("location: ?page=trans-order&add=success");
+    header("Location: ?page=trans-order&alert=success&message=successfully.");
 
 }
 
@@ -75,7 +76,8 @@ if (isset($_POST['edit'])) {
     $update = mysqli_query($koneksi, "UPDATE users 
     SET id_level ='$id_level', name='$name', email='$email', password='$password' WHERE id ='$id'");
     if ($update) {
-        header("location:?page=user&update=success");
+        header("Location: ?page=user&alert=success&message=successfully.");
+        // header("location:?page=user&update=success");
     }
 }
 

@@ -1,10 +1,8 @@
 <?php
-
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Periksa apakah pengguna sudah login
 if (!isset($_SESSION['ID_USER'])) {
     header("Location: index.php");
     exit();
@@ -12,83 +10,135 @@ if (!isset($_SESSION['ID_USER'])) {
 
 include('koneksi.php');
 
-// Total transaksi
+// Query Data
 $queryTransaksi = mysqli_query($koneksi, "SELECT COUNT(id) AS total FROM `order`");
-$dataTransaksi = mysqli_fetch_assoc($queryTransaksi);
-$totalTransaksi = $dataTransaksi['total'];
+$totalTransaksi = mysqli_fetch_assoc($queryTransaksi)['total'];
 
-// Total pelanggan
 $queryPelanggan = mysqli_query($koneksi, "SELECT COUNT(id) AS total FROM customer");
-$dataPelanggan = mysqli_fetch_assoc($queryPelanggan);
-$totalPelanggan = $dataPelanggan['total'];
+$totalPelanggan = mysqli_fetch_assoc($queryPelanggan)['total'];
 
-// Total pendapatan
 $queryPendapatan = mysqli_query($koneksi, "SELECT SUM(total) AS total FROM `order`");
-$dataPendapatan = mysqli_fetch_assoc($queryPendapatan);
-$totalPendapatan = $dataPendapatan['total'];
+$totalPendapatan = mysqli_fetch_assoc($queryPendapatan)['total'];
 
-// Total layanan
 $queryLayanan = mysqli_query($koneksi, "SELECT COUNT(id) AS total FROM services");
-$dataLayanan = mysqli_fetch_assoc($queryLayanan);
-$totalLayanan = $dataLayanan['total'];
+$totalLayanan = mysqli_fetch_assoc($queryLayanan)['total'];
 ?>
 
-    <div class="container mt-5">
-        <h2 class="mb-4">Dashboard Admin</h2>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card text-white bg-primary mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Transaksi</h5>
-                        <p class="card-text"> <?= $totalTransaksi; ?> </p>
-                    </div>
-                </div>
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Total Transaksi -->
+    <div class="col-lg-3 col-md-6">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">Total Transaksi</h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle bg-primary text-white">
+              <i class="bi bi-basket-fill"></i>
             </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-success mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Pelanggan</h5>
-                        <p class="card-text"> <?= $totalPelanggan; ?> </p>
-                    </div>
-                </div>
+            <div class="ps-3">
+              <h6><?= $totalTransaksi; ?></h6>
             </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-warning mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Pendapatan</h5>
-                        <p class="card-text">Rp. <?= number_format($totalPendapatan, 0, ',', '.'); ?> </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-danger mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Layanan</h5>
-                        <p class="card-text"> <?= $totalLayanan; ?> </p>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-        
-        <div class="card mt-4">
-            <div class="card-body">
-                <h5 class="card-title">Analisis Transaksi</h5>
-                <canvas id="chartTransaksi"></canvas>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <script>
-        const ctx = document.getElementById('chartTransaksi').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Transaksi', 'Pelanggan', 'Pendapatan', 'Layanan'],
-                datasets: [{
-                    label: 'Statistik Bisnis',
-                    data: [<?= $totalTransaksi; ?>, <?= $totalPelanggan; ?>, <?= $totalPendapatan; ?>, <?= $totalLayanan; ?>],
-                    backgroundColor: ['blue', 'green', 'orange', 'red'],
-                }]
-            }
-        });
-    </script>
+    <!-- Total Pelanggan -->
+    <div class="col-lg-3 col-md-6">
+      <div class="card info-card customers-card">
+        <div class="card-body">
+          <h5 class="card-title">Total Pelanggan</h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle bg-success text-white">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="ps-3">
+              <h6><?= $totalPelanggan; ?></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Pendapatan -->
+    <div class="col-lg-3 col-md-6">
+      <div class="card info-card revenue-card">
+        <div class="card-body">
+          <h5 class="card-title">Total Pendapatan</h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle bg-warning text-white">
+              <i class="bi bi-currency-dollar"></i>
+            </div>
+            <div class="ps-3">
+              <h6>Rp. <?= number_format($totalPendapatan, 0, ',', '.'); ?></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Layanan -->
+    <div class="col-lg-3 col-md-6">
+      <div class="card info-card services-card">
+        <div class="card-body">
+          <h5 class="card-title">Total Layanan</h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle bg-danger text-white">
+              <i class="bi bi-box-seam"></i>
+            </div>
+            <div class="ps-3">
+              <h6><?= $totalLayanan; ?></h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Chart Section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body pt-4">
+          <h5 class="card-title">Analisis Transaksi</h5>
+          <canvas id="chartTransaksi" height="120"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('chartTransaksi').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Transaksi', 'Pelanggan', 'Pendapatan', 'Layanan'],
+    datasets: [{
+      label: 'Statistik Bisnis',
+      data: [<?= $totalTransaksi ?>, <?= $totalPelanggan ?>, <?= $totalPendapatan ?>, <?= $totalLayanan ?>],
+      backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#dc3545'],
+      borderRadius: 8,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          precision: 0
+        }
+      }
+    }
+  }
+});
+</script>

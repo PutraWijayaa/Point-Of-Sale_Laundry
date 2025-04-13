@@ -1,0 +1,102 @@
+/* payment */
+
+/* Custom Styles */
+.payment-method-label {
+    display: block;
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-radio input:checked + .payment-method-label {
+    border-color: #556ee6;
+    background-color: rgba(85, 110, 230, 0.1);
+}
+
+.quick-amount {
+    min-width: 80px;
+}
+
+.pay-button {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.pay-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(85, 110, 230, 0.3);
+}
+
+.pay-button:active {
+    transform: translateY(0);
+}
+
+.ribbon {
+    position: absolute;
+    right: -5px;
+    top: 15px;
+    z-index: 1;
+    overflow: hidden;
+    width: 120px;
+    height: 120px;
+    text-align: right;
+}
+
+.ribbon-shape {
+    font-size: 0.8rem;
+    color: #fff;
+    text-align: center;
+    line-height: 25px;
+    transform: rotate(45deg);
+    position: relative;
+    padding: 0 10px;
+    top: 20px;
+    right: -27px;
+    width: 140px;
+    background-color: #556ee6;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card {
+    border-radius: 0.75rem;
+}
+
+.alert {
+    border-radius: 0.5rem;
+}
+
+.avatar-xs {
+    height: 2rem;
+    width: 2rem;
+}
+
+.avatar-xs .avatar-title {
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+.bg-soft-primary {
+    background-color: rgba(85, 110, 230, 0.15) !important;
+}
+
+.bg-soft-success {
+    background-color: rgba(52, 195, 143, 0.15) !important;
+}
+
+.input-group-text, .form-control {
+    border-radius: 0.5rem;
+}
+
+.input-group .input-group-text {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

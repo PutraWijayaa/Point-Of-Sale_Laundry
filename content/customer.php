@@ -1,10 +1,8 @@
 <?php
-
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Periksa apakah pengguna sudah login
 if (!isset($_SESSION['ID_USER'])) {
     header("Location: index.php");
     exit();
@@ -17,14 +15,15 @@ $rowCustomer = mysqli_fetch_all($queryCustomer, MYSQLI_ASSOC);
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $queryDel = mysqli_query($koneksi, "DELETE FROM customer WHERE id = $id");
-    header("location: ?page=customer&notif=success");
+    header("Location: ?page=customer&notif=success");
+    exit();
 }
 
 $queryTotal = mysqli_query($koneksi, "SELECT COUNT('id') FROM customer");
 $rowTotal = mysqli_fetch_all($queryTotal, MYSQLI_ASSOC);
-
 ?>
 
+<!-- HTML Konten -->
 <div class="pagetitle">
     <h1>Customer </h1>
     <nav>
@@ -34,21 +33,20 @@ $rowTotal = mysqli_fetch_all($queryTotal, MYSQLI_ASSOC);
             <li class="breadcrumb-item">Customer</li>
         </ol>
     </nav>
-</div><!-- End Page Title -->
+</div>
 
 <section class="section">
-
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header">
+                <!-- <div class="card-header">
                     <h3 class="text-center text-dark">Customer Data</h3>
-                </div>
-
+                </div> -->
                 <div class="card-body">
                     <div align="right" class="mb-3 mt-3">
-                        <a href="?page=add-customer" class="btn btn-dark"><i class="bi bi-plus-circle"></i> New
-                            Customer</a>
+                        <a href="?page=add-customer" class="btn btn-dark">
+                            <i class="bi bi-plus-circle"></i> New Customer
+                        </a>
                     </div>
                     <table class="table datatable">
                         <thead>
@@ -62,12 +60,9 @@ $rowTotal = mysqli_fetch_all($queryTotal, MYSQLI_ASSOC);
                                 <th hidden>Deleted At</th>
                                 <th>#</th>
                             </tr>
-                            </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $no = 1;
-                            foreach ($rowCustomer as $row) { ?>
+                            <?php $no = 1; foreach ($rowCustomer as $row) { ?>
                             <tr>
                                 <td><?= $no++ ?></td>
                                 <td><?= $row['customer_name'] ?></td>
@@ -77,11 +72,14 @@ $rowTotal = mysqli_fetch_all($queryTotal, MYSQLI_ASSOC);
                                 <td hidden><?= $row['updated_at'] ?></td>
                                 <td hidden><?= $row['deleted_at'] ?></td>
                                 <td class="btn-group">
-                                    <a href="?page=add-customer&edit=<?php echo $row['id'] ?>"
-                                        class="btn btn-dark btn-sm"><i class="bi bi-pencil-square"></i></a>
-                                    <a href="?page=customer&delete=<?php echo $row['id'] ?>"
-                                        class="btn btn-danger btn-sm" onclick="return confirm('Are You Sure?')"><i
-                                            class="bi bi-trash3-fill"></i></a>
+                                    <a href="?page=add-customer&edit=<?= $row['id'] ?>" class="btn btn-dark btn-sm">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="?page=customer&delete=<?= $row['id'] ?>" 
+                                       class="btn btn-danger btn-sm" 
+                                       onclick="confirmDelete(event, this)">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </a>
                                 </td>
                             </tr>
                             <?php } ?>
@@ -91,5 +89,40 @@ $rowTotal = mysqli_fetch_all($queryTotal, MYSQLI_ASSOC);
             </div>
         </div>
     </div>
-
 </section>
+
+<!-- SweetAlert Konfirmasi Delete -->
+<script>
+function confirmDelete(event, el) {
+    event.preventDefault();
+    const href = el.getAttribute('href');
+
+    Swal.fire({
+        title: 'Apakah kamu yakin?',
+        text: "Data customer akan dihapus secara permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = href;
+        }
+    });
+}
+</script>
+
+<!-- SweetAlert Notifikasi Berhasil Hapus -->
+<?php if (isset($_GET['notif']) && $_GET['notif'] == 'success') : ?>
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Terhapus!',
+    text: 'Data customer berhasil dihapus.',
+    showConfirmButton: false,
+    timer: 2000
+});
+</script>
+<?php endif; ?>

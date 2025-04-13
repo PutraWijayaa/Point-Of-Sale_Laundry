@@ -16,7 +16,8 @@ if (isset($_POST['save'])) {
     $insert = mysqli_query($koneksi, "INSERT INTO level (level_name)
     VALUES('$level_name')");
     if ($insert) {
-        header("location:?page=akses&add=success");
+        // header("location:?page=akses&add=success");
+        header("Location: ?page=akses&alert=success&message=successfully.");
     }
 }
 
@@ -37,7 +38,8 @@ if (isset($_POST['edit'])) {
     $update = mysqli_query($koneksi, "UPDATE level 
     SET level_name ='$level_name' WHERE id ='$id'");
     if ($update) {
-        header("location:?page=akses&update=success");
+        header("Location: ?page=akses&alert=success&message=successfully.");
+        // header("location:?page=akses&update=success");
     }
 }
 
