@@ -1,23 +1,9 @@
-# Point of Sale (POS) Laundry - PPKD Jakarta Pusat
-Website Point of Sale (POS) Laundry ini dikembangkan sebagai bagian dari pembelajaran di Program Pengembangan Keahlian dan Kompetensi Digital (PPKD) Jakarta Pusat. Sistem ini bertujuan untuk mempermudah proses transaksi dan manajemen di bisnis laundry dengan menyediakan solusi untuk pencatatan transaksi, pengelolaan pelanggan, serta laporan penjualan secara real-time.
-
-## Fitur Utama
-  - Pencatatan Transaksi <br>
-  Mencatat setiap transaksi yang dilakukan oleh pelanggan, termasuk jenis layanan laundry, harga, dan jumlah pakaian yang diproses.
-  - Manajemen Pelanggan <br>
-  Menyimpan data pelanggan seperti nama, nomor telepon, dan histori transaksi untuk memudahkan komunikasi dan analisis.
-  - Manajemen Layanan <br>
-  Mengelola jenis layanan laundry yang tersedia, seperti cuci kering, cuci setrika, dan lainnya, serta menentukan harga untuk setiap layanan.
-  - Laporan Penjualan <br>
-  Menyediakan laporan penjualan harian, mingguan, dan bulanan yang dapat diunduh dalam format PDF atau CSV untuk mempermudah analisis keuangan.
-  - Manajemen RBAC <br>
-  Mengelola hak akses user 
-  - Antarmuka Pengguna yang Ramah<br>
-  Antarmuka yang mudah digunakan baik oleh pemilik usaha maupun kasir dalam menjalankan operasi sehari-hari.
+# Point of Sale (POS) Laundry
+Website Point of Sale (POS) Laundry ini dikembangkan sebagai bagian dari pembelajaran PHP Native. Sistem ini bertujuan untuk mempermudah proses transaksi dan manajemen di bisnis laundry dengan menyediakan solusi untuk pencatatan transaksi, pengelolaan pelanggan, serta laporan penjualan secara real-time.
 
 ## Teknologi yang Digunakan
-Frontend : Bootstrap 5
-Backend : php Native
-Database : Mysql
+Bootstrap 5 <br>
+php Native <br>
+Mysql <br>
 
-## Terima Kasih 🙏
+
