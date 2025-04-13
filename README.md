@@ -10,10 +10,6 @@ Website Point of Sale (POS) Laundry ini dikembangkan sebagai bagian dari pembela
   Mengelola jenis layanan laundry yang tersedia, seperti cuci kering, cuci setrika, dan lainnya, serta menentukan harga untuk setiap layanan.
   - Laporan Penjualan <br>
   Menyediakan laporan penjualan harian, mingguan, dan bulanan yang dapat diunduh dalam format PDF atau CSV untuk mempermudah analisis keuangan.
-  - Manajemen RBAC <br>
-  Mengelola hak akses user 
-  - Antarmuka Pengguna yang Ramah<br>
-  Antarmuka yang mudah digunakan baik oleh pemilik usaha maupun kasir dalam menjalankan operasi sehari-hari.
 
 ## Teknologi yang Digunakan
 Bootstrap 5
