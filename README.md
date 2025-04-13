@@ -12,6 +12,7 @@ Mysql <br>
 ## Transaction
 ![Tampilan POS Laundry](assets/img/2.png)
 ![Tampilan POS Laundry](assets/img/5.png)
+![Tampilan POS Laundry](assets/img/9.png)
 
 ## Profile
 ![Tampilan POS Laundry](assets/img/3.png)
